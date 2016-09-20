@@ -1,7 +1,6 @@
 # README #
 
-How to set up gulp, jasmine, karma, karma-htmlfile-reporter to generate a html file that looks like jasmine output.
-Time lapse: 1 week into 15 mins.
+How to set up gulp and eslint with a custom rule
 
 ## Pre-requisites:
 - node
@@ -36,7 +35,7 @@ settings:
 - browser
 - es6 no
 - common js - yes
-- jsx - now
+- jsx - no
 - quotes - single
 - tabs
 - windows
