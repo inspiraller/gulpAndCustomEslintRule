@@ -60,6 +60,10 @@ gulp.task('eslint', function () {
 www/js/lib/hello.js
 ```javascript
 function hello(){
+	if(true){
+
+	}
+	var s = 'john';
 	return 'hello mate';
 }
 ```
@@ -68,5 +72,90 @@ function hello(){
 gulp eslint
 
 ## How to set up customisation
-https://insideops.wordpress.com/2015/12/08/creating-custom-rules-for-eslint/
+### For all node types you can write rules for see:
+https://github.com/estree/estree/blob/master/es5.md 
+
+### useful notes:
+Inside your rule if you want to console.log to test what your rule is picking up you would have to have installed eslint globally. Then you can use:
+	eslint --rule my-eslint-plugin/index.js www/js/lib/hello.js
+
+Better just to use context.report(node,'what is this rule picking up??? = ' + whatever);
+
+# 1 Create Folder: eslintCustomRules/
+# 2 Create File : eslintCustomRules/index.js
+
+module.exports.rules = {
+    "var-length": context => ({
+        VariableDeclarator: (node) => {
+            if(node.id.name.length < 2){
+                context.report(node, 'Variable names should be longer than 1 character');
+            }
+        }
+    }),
+	"if-curly-formatting": context => ({
+        IfStatement: (node) => {
+            var source = context.getSource(node.test, 0, 3);
+            if (!source.match(/ {$/)) {
+                context.report(node, "Found improperly formatted if-statement");
+            }
+        }
+    })      
+};
+
+# 3 Create package.json file for your custom estlint rule: estlintCustomRules/package.json
+Note that you have to include a prefix of eslint-plugin- 
+
+
+{
+  "name": "eslint-plugin-eslintCustomRules", 
+  "version": "0.0.1",
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "~2.6.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
+
+# 4 update your .eslintrc.js file to include both the reference to plugin - custom folder and your new rules
+
+module.exports = {
+    "env": {
+        "browser": true,
+        "commonjs": true
+    },
+    "extends": "eslint:recommended",
+    "plugins": [
+        "eslintCustomRules"
+    ] , 
+    "rules": {
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        /* your new rules here ---- */
+        "eslintCustomRules/if-curly-formatting": "warn",
+        "eslintCustomRules/var-length":"warn"
+    }
+};
+
+# 5 install your new custom plugin into the same node_modules folder that eslint depends on
+npm install -S ./eslintCustomRules
+
+# 6 now test your new rules
+gulp estlint
+
 

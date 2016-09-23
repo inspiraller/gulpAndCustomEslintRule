@@ -4,6 +4,9 @@ module.exports = {
         "commonjs": true
     },
     "extends": "eslint:recommended",
+    "plugins": [
+        "eslintCustomRules"
+    ] , 
     "rules": {
         "indent": [
             "error",
@@ -20,6 +23,8 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "eslintCustomRules/if-curly-formatting": "warn",
+        "eslintCustomRules/var-length":"warn"
     }
 };

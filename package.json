@@ -15,5 +15,8 @@
     "eslint": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1"
+  },
+  "dependencies": {
+    "eslint-plugin-eslintCustomRules": "file:eslintCustomRules"
   }
 }
