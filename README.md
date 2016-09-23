@@ -83,7 +83,7 @@ Better just to use context.report(node,'what is this rule picking up??? = ' + wh
 
 # 1 Create Folder: eslintCustomRules/
 # 2 Create File : eslintCustomRules/index.js
-
+```javascript
 module.exports.rules = {
     "var-length": context => ({
         VariableDeclarator: (node) => {
@@ -101,10 +101,10 @@ module.exports.rules = {
         }
     })      
 };
-
+```
 # 3 Create package.json file for your custom estlint rule: estlintCustomRules/package.json
 Note that you have to include a prefix of eslint-plugin- 
-
+```javascript
 
 {
   "name": "eslint-plugin-eslintCustomRules", 
@@ -117,9 +117,9 @@ Note that you have to include a prefix of eslint-plugin-
     "node": ">=0.10.0"
   }
 }
-
+```
 # 4 update your .eslintrc.js file to include both the reference to plugin - custom folder and your new rules
-
+```javascript
 module.exports = {
     "env": {
         "browser": true,
@@ -151,7 +151,7 @@ module.exports = {
         "eslintCustomRules/var-length":"warn"
     }
 };
-
+```
 # 5 install your new custom plugin into the same node_modules folder that eslint depends on
 npm install -S ./eslintCustomRules
 
