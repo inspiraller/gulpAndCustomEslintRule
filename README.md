@@ -1,10 +1,10 @@
 # README #
 
-# Pre-requisites:
+##### Pre-requisites:
 - node
 - npm
 
-# How to provide an eslint rule to test the whole source code of a file:
+##### How to provide an eslint rule to test the whole source code of a file:
 - git clone [this repo]
 - open package.json and remove -   "dependencies": {"eslint-plugin-eslintCustomRules": "file:eslintCustomRules"}
 - npm update
@@ -14,9 +14,9 @@
 
 # Instructions for building below:
 
-## Install npm dependencies:
-    $ npm install gulp eslint gulp-eslint --save-dev
-## Create .eslint.src:
+##### Install npm dependencies:
+$ npm install gulp eslint gulp-eslint --save-dev
+##### Create .eslint.src:
 $ node_modules\.bin\eslint --init
 
 Just press Enter for everything. It doesn't matter what you choose because you are going to remove all the eslint rules anyway.They are just going to get in the way of creative development.
@@ -32,7 +32,9 @@ module.exports = {
 };
 ```
 
-## Create gulpfile.js:
+##### Create gulpfile.js:
+
+
 ```javascript
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
@@ -45,7 +47,7 @@ gulp.task('eslint', function () {
 });
 ```
 
-## Create your webroot folder with some js files:
+##### Create your webroot folder with some js files:
 ***example:***
 www/js/lib/hello.js
 ```javascript
@@ -57,16 +59,16 @@ function hello(){
     return 'hello mate';
 }
 ```
-## run eslint
+##### run eslint
 gulp eslint
 
-## How to write your own eslint rules
+##### How to write your own eslint rules
 *** Here is a reference guide to what you can write rules for: ***
 https://github.com/estree/estree/blob/master/es5.md 
 
-## 1 Create Folder: 
+##### 1 Create Folder: 
 eslintCustomRules/
-## 2 Create File: 
+##### 2 Create index.js: 
 eslintCustomRules/index.js
 
 ```javascript
@@ -102,7 +104,7 @@ module.exports.rules = {
 
 
 ```
-# 3 Create package.json file 
+##### 3 Create package.json file 
 estlintCustomRules/package.json
 
  ***Note:*** Include a prefix: eslint-plugin-[yourCustomLinRulesFolder] 
@@ -119,7 +121,7 @@ estlintCustomRules/package.json
   }
 }
 ```
-# 4 update .eslintrc.js file to include your new rules
+##### 4 update .eslintrc.js file to include your new rules
  - Don't forget to add it into plugins, as below
  - Don't forget to include each rule as below:
  
@@ -139,10 +141,44 @@ module.exports = {
     }
 };
 ```
-# 5 install your new custom plugin into node_modules folder
+##### 5 install your new custom plugin into node_modules folder
 npm install -S ./eslintCustomRules
 
-# 6 now test your new rules
+##### 6 now test your new rules
 gulp eslint
+
+
+#  How to display your new eslint.src rules in sublime?
+
+##### Set up this eslint as the a system path variable
+Go to Control Panel > System & Security > System > Advanced System Settings > Environment Variables > navigate to the System > Path > add this to the end:
+;C:\[your project]\node_modules\eslint\bin
+
+##### RESTART COMPUTER FOR THIS TO TAKE EFFECT!
+RESTART COMPUTER FOR THIS TO TAKE EFFECT!
+
+##### Install SublimeText3
+download and install from sublimetext. Don't use a portable version.
+
+##### Install SublimeLinter
+Open Sublime - CTRL SHIFT P - Package Install - First install SublimeLinter
+
+##### Install SublimeLinter-contrib-eslint
+Open Sublime - CTRL SHIFT P - Package Install - type: eslint - pick - SublimeLinter-contrib-eslint
+
+##### Set SublimeLinter to pull eslint.src from preferred location:
+inside Preferences > Package Settings > SublimeLinter > Settings Default
+update: paths to location of your node location...
+```javascript
+{
+    "default": {
+        "paths": {
+  
+            "windows": ["C:\\baps\\jsstack\\globalEslint"]
+        },
+```
+##### To test a .js file
+Close a .js file and re-open it.
+You should now notice errors, or warnings determined by your eslint rules.
 
 
