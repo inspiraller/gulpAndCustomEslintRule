@@ -3,5 +3,17 @@ function hello()     {
 	if(s) {
 
 	}
+	var $ = function(){
+
+	}
+
+	$('.somethingNice');
+
+
+	$('.somethingNotNice');
+
+	$('.somethingNice');
+
+
 	return 'hello mate';
 }

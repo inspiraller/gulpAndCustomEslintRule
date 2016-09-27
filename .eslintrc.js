@@ -7,6 +7,6 @@ module.exports = {
         "eslintCustomRules"
     ] , 
     "rules": {
-        "eslintCustomRules/testAll": "warn"
+        "eslintCustomRules/testSameJqueryReference": "warn"
     }
 };
