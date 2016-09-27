@@ -4,8 +4,7 @@
 - node
 - npm
 
-# How to set up gulp and eslint with two of your own custom eslint rules:
-
+# How to provide an eslint rule to test the whole source code of a file:
 - git clone [this repo]
 - open package.json and remove -   "dependencies": {"eslint-plugin-eslintCustomRules": "file:eslintCustomRules"}
 - npm update
@@ -13,17 +12,17 @@
 - to test files in location www/js/*:
   gulp eslint
 
-# To understand how this was put together following the instructions below:
+# Instructions for building below:
 
 ## Install npm dependencies:
     $ npm install gulp eslint gulp-eslint --save-dev
 ## Create .eslint.src:
 $ node_modules\.bin\eslint --init
-Just press Enter for everything. It doesn't matter. You are going to remove all the eslint rules anyway.
-They are just going to get in the way of creative development.
+
+Just press Enter for everything. It doesn't matter what you choose because you are going to remove all the eslint rules anyway.They are just going to get in the way of creative development.
 Supply only a few very basic rules, to reduce overal technical debt.
 
-Your file should look like this:
+eslint.src should be cleaned up to look like this:
 ```javascript
 module.exports = {
     "env": {
@@ -130,7 +129,6 @@ module.exports = {
         "browser": true,
         "commonjs": true
     },
-    "extends": "eslint:recommended",
     "plugins": [ /* include your plugin here: */
         "eslintCustomRules"
     ] , 
