@@ -58,6 +58,34 @@ module.exports.rules = {
                 }             
             }
         };
-    } 
+    },
+    'testSomethingElse': function(context){
+        return {
+            Program: function(node){
+                var str = context.getSource();
+                var objError = {
+                    line:20,
+                    column:15
+                };
+
+                if(objError){
+                    var myNode = {
+                        type:'Jquery reference repeated',
+                        loc:{
+                            start:{
+                                line:objError.line,
+                                column:objError.column,
+                                offset:function(n){
+                                    return new Position(this.line, this.column + n)
+                                }
+                            }
+                        }                   
+                    };
+
+                    context.report(myNode, 'Whatever you want!');   
+                }             
+            }
+        };
+    }     
 };
 
