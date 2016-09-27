@@ -1,29 +1,38 @@
 # README #
 
-How to set up gulp and eslint with two of your own custom eslint rules
-
-## Pre-requisites:
+# Pre-requisites:
 - node
 - npm
-## Create a project for yourself:
-	$ cd c:\yourlocationetc\
-## create package.json file:
-	$ npm init
+
+# How to set up gulp and eslint with two of your own custom eslint rules:
+
+- git clone [this repo]
+- open package.json and remove -   "dependencies": {"eslint-plugin-eslintCustomRules": "file:eslintCustomRules"}
+- npm update
+- npm install -S ./eslintCustomRules
+- to test files in location www/js/*:
+  gulp eslint
+
+# To understand how this was put together following the instructions below:
 
 ## Install npm dependencies:
-	$ npm install gulp eslint gulp-eslint --save-dev
+    $ npm install gulp eslint gulp-eslint --save-dev
 ## Create .eslint.src:
 $ node_modules\.bin\eslint --init
-settings:
-- browser
-- es6 no
-- common js - yes
-- jsx - no
-- quotes - single
-- tabs
-- windows
-- config in javascript
-- 
+Just press Enter for everything. It doesn't matter. You are going to remove all the eslint rules anyway.
+They are just going to get in the way of creative development.
+Supply only a few very basic rules, to reduce overal technical debt.
+
+Your file should look like this:
+```javascript
+module.exports = {
+    "env": {
+        "browser": true,
+        "commonjs": true
+    }
+};
+```
+
 ## Create gulpfile.js:
 ```javascript
 var gulp = require('gulp');
@@ -42,40 +51,57 @@ gulp.task('eslint', function () {
 www/js/lib/hello.js
 ```javascript
 function hello(){
-	if(true){
+    if(true){
 
-	}
-	var s = 'john';
-	return 'hello mate';
+    }
+    var s = 'john';
+    return 'hello mate';
 }
 ```
 ## run eslint
 gulp eslint
 
 ## How to write your own eslint rules
+*** Here is a reference guide to what you can write rules for: ***
+https://github.com/estree/estree/blob/master/es5.md 
 
 ## 1 Create Folder: 
 eslintCustomRules/
 ## 2 Create File: 
 eslintCustomRules/index.js
+
 ```javascript
 module.exports.rules = {
-    "var-length": context => ({
-        VariableDeclarator: (node) => {
-            if(node.id.name.length < 2){
-                context.report(node, 'Variable names should be longer than 1 character');
+    'testAll': function(context){
+        return {
+            Program: function(node){
+
+                // 1) Get the entire source of this file.
+                var str = context.getSource(); 
+
+                // 2) do what ever regex you need to do determine your lint rules 
+                // 3) and just return the object - myNode with line number of problem.                
+
+                var myNode = {
+                    type:'My test!',
+                    loc:{
+                        start:{
+                            line:6,
+                            column:14,
+                            offset:function(n){
+                                return new Position(this.line, this.column + n)
+                            }
+                        }
+                    }                   
+                };
+
+                context.report(myNode, 'Something didn\'t work');                
             }
-        }
-    }),
-	"if-curly-formatting": context => ({
-        IfStatement: (node) => {
-            var source = context.getSource(node.test, 0, 3);
-            if (!source.match(/ {$/)) {
-                context.report(node, "Found improperly formatted if-statement");
-            }
-        }
-    })      
+        };
+    } 
 };
+
+
 ```
 # 3 Create package.json file 
 estlintCustomRules/package.json
@@ -109,25 +135,9 @@ module.exports = {
         "eslintCustomRules"
     ] , 
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        /* remove all other rules. Linting code just limits creative development. */
         /* your new rules here ---- */
-        "eslintCustomRules/if-curly-formatting": "warn",
-        "eslintCustomRules/var-length":"warn"
+        "eslintCustomRules/testAll":"warn"
     }
 };
 ```
